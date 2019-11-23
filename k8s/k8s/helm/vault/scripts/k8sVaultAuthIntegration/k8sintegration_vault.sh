@@ -1,5 +1,5 @@
 export INTERNAL_IP=https://kubernetes:443 # make sure consul in installed and injected for this env to work
-export VAULT_ADDR=http://vaultqa:8200 # make sure consul in installed and injected for this env to work
+export VAULT_ADDR=http://vault:8200 # make sure consul in installed and injected for this env to work
 
 # Enable and configure the Kubernetes auth method ( UI / CMD)
 # For details, see: 
@@ -8,7 +8,7 @@ export VAULT_ADDR=http://vaultqa:8200 # make sure consul in installed and inject
 vault auth enable kubernetes
 vault write auth/kubernetes/config \
     kubernetes_host=https://${INTERNAL_IP}:4443 \
-    kubernetes_ca_cert=@/etc/kubernetes/pki/ca.crt # we can paste this in the UI once enabled
+    kubernetes_ca_cert=@/etc/kubernetes/pki/ca.crt # we can paste this in the UI once enabled by running it on our kops image - aws ls aws s3 s3://jb-cloud-terraform-vpc-remote-state/[CLUSTERNAME]/pki/issued/ca/ AND THEN cp s3://jb-cloud-terraform-vpc-remote-state/[CLUSTERNAME]/pki/issued/ca/[KEY.crt] ca.key
 vault write auth/kubernetes/role/vault-demo-role \
     bound_service_account_names=vault-serviceaccount \
     bound_service_account_namespaces=default \

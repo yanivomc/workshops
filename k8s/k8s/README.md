@@ -41,18 +41,12 @@ Update Consul SERVICE NAME (from CONSUL) in the vault custom-values
 
 #### Initialize
 ~~~ 
-$ kubectl exec -it vault-0 -- vault operator init -n 1 -t 1
-~~~ 
-
+$ kubectl exec -ti vault-0 ash 
+$ vault operator init -n 3 -t 3
 #### Unseal vault
-~~~  
- $ kubectl exec -it vault-0 -- vault operator unseal <unsealkey>
-~~~   
-
-
+$vault operator unseal <unsealkey>
 #### Login vault
-~~~  
- $ kubectl exec -it vaultqa-0 -- vault login
+$ vault login
 ~~~   
 
 
