@@ -50,10 +50,13 @@ do
  
 done
 
-echo "Printing all Master IP's"
-aws ec2 describe-instances --region=eu-west-1 --query 'Reservations[*].Instances[*].[PublicIpAddress]' --filter Name=tag:'k8s.io/role/master',Values=1 --output text | sort -k2f
+echo "Printing all Master IP's for cluster $CLIENT_NAME-$i.jb.io"
+aws ec2 describe-instances --region=eu-west-1 --query 'Reservations[*].Instances[*].[PublicIpAddress]' --filters "Name=tag:k8s.io/role/master,Values=1" "Name=tag:KubernetesCluster,Values=$CLIENT_NAME-$i.jb.io" "Name=instance-state-code,Values=16" --output text | sort -k2f
 echo "################################"
 
-echo "Printing all IP's"
-aws ec2 describe-instances --region=eu-west-1 --query 'Reservations[*].Instances[*].[PublicIpAddress]' --output text | sort -k2f
+echo "Printing all nodes IP's for cluster $CLIENT_NAME-$i.jb.io"
+aws ec2 describe-instances --region=eu-west-1 --query 'Reservations[*].Instances[*].[PublicIpAddress]' --filters "Name=tag:k8s.io/role/node,Values=1" "Name=tag:KubernetesCluster,Values=$CLIENT_NAME-$i.jb.io" "Name=instance-state-code,Values=16" --output text | sort -k2f
 
+echo "###################################"
+echo "Printing all nodes IP's for cluster $CLIENT_NAME-$i.jb.io"
+aws ec2 describe-instances --region=eu-west-1 --query 'Reservations[*].Instances[*].[PublicIpAddress]' --filters  "Name=tag:KubernetesCluster,Values=$CLIENT_NAME-$i.jb.io" "Name=instance-state-code,Values=16" --output text | sort -k2f
