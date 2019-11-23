@@ -1,0 +1,5 @@
+1. Provision new centos image with internet access (or use one of yanivomc)
+3. Get from rancher the Commands to run to register the new k8s cluster
+2. Run terraform on a HOST with the same subnet as the nodes and masters.
+    2.1 configure IPV4 on the terraform config file for the nodes to get static ips
+    

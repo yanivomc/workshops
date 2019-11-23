@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+
+name="docker-bootstrap"
+
+
+depend() {
+    need docker
+}
+
+start_pre() {
+    cd /docker
+    docker-compose up -d
+    
+}

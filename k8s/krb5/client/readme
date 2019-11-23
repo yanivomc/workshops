@@ -1,0 +1,14 @@
+TODO:
+1. Create user.keytab (Manual step) for the kinit and renew + shm file
+----
+ktutil 
+addent -password -p yanivomc@DC.INTERNAL -k 1 -e rc4-hmac
+wkt /krb5/client.keytab
+quit
+
+----
+2. run the container 
+
+2. Need to auth using the client keytab to create the SHM (step manually)
+
+

@@ -1,0 +1,18 @@
+#cloud-config
+# ssh keys for access
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQAyQYiCD+eqVBztm1u+R8X91KZ7OANo05Fb+aJELY+QH6OP73jHXjSuoejrCGmMYyOtJ4Pi4qtjxvXyYjxrmKTocCykgqMkmOUPnS5j+sd/XEUo3s5ZNpdHw7wNhsHYa9pksIFTAkHSowd8HYssgGxOkFVYhn0/z6eKud7blm5eT7DiwbmxaI4vcZalgZybMUwGAN4lOM0nexkbltnJwefk9xgugEMAdy1aZzpbQAbU6DyNLtoFyqsNewV1utmKnkoyytOjdyUZWb7UPlfkKgVTWFvKJh4TvWZTHx5RZ9QfSRmWOqV1VENGcBaAc7WidB7pKloakD8kxXifC3kQcF yanivos@credorax.com
+
+# rancherOS hostname
+hostname: rancheros-yanivomc
+
+# rancher-network settings
+rancher:
+  network:
+    interfaces:
+      eth0:
+        dhcp: true
+        mtu: 1500
+  state:
+    autoformat:
+    - /dev/sda

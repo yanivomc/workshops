@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: krb5-demo
+  labels:
+    appl: krb5-demo
+  annotations: {
+    "consul.hashicorp.com/connect-inject": "true"  } ## Inject Consul sidecar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appl: krb5-demo
+  template:
+    metadata:
+      labels:
+        appl: krb5-demo
+    spec:
+      serviceAccountName: vault-serviceaccount
+      volumes:
+      - name: vault-token
+        emptyDir:
+          medium: Memory
+      - name: krb5-token
+        emptyDir:
+          medium: Memory
+      containers:
+      - name: vault-kubernetes-authenticator
+        image: postfinance/vault-kubernetes-authenticator
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: vault-token
+          mountPath: /home/vault
+        env:
+        - name: VAULT_ADDR
+          value: ${VAULT_ADDR}
+        - name: VAULT_ROLE
+          value: vault-demo-role
+        - name: VAULT_TOKEN_PATH
+          value: /home/vault/.vault-token

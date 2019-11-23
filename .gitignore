@@ -1,0 +1,4 @@
+scripts/kops/.terraform.d/plugins/darwin_amd64/terraform-provider-aws_v2.2.0_x4
+scripts/kops/.terraform.d/plugins/linux_amd64/terraform-provider-aws_v2.39.0_x4
+k8s/packer/backup/packer/configs/files.tar
+scripts/kops/.terraform.d/plugin-cache/linux_amd64/terraform-provider-aws_v2.39.0_x4

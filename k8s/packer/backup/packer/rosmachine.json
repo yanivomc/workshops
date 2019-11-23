@@ -1,0 +1,62 @@
+{
+
+    "variables": {
+      "ros_version" : "v1.5.2",
+      "vm_password": "{{env `VMPASS`}}"
+  },
+  "builders": [
+    {
+      "type": "vsphere-iso",
+
+      "vcenter_server": "photon-machine",
+      "username": "rancher@vsphere.local",
+      "password": "FreakingAws0me!",
+      "insecure_connection": true,
+      
+
+      "vm_name": "rancheros-{{timestamp}}",
+      
+      "host": "10.0.0.27",
+
+
+      "CPUs":             1,
+      "RAM":              1024,
+      "RAM_reserve_all": true,
+      "disk_controller_type":  "pvscsi",
+      "disk_size":        8000,
+      "disk_thin_provisioned": true,
+      "network_card": "vmxnet3",
+      "network": "VM Network",
+      "guest_os_type": "other3xLinux64Guest",
+      "http_directory": "./configs/",
+
+      "iso_paths": [
+        "[datastore1] files/rancheros.iso"
+      ],
+      "floppy_img_path":  "[datastore1] files/rancheros.tar.gz",
+
+      "boot_wait": "15s",
+      "ssh_username": "rancher",
+      "ssh_password": "rancher",
+      "ssh_private_key_file": "~/.ssh/id_rsa"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type":"file",
+      "source": "./configs/cloud-config.yml",
+      "destination": "/tmp/cloud-config.yml"
+  },
+  {
+      "type": "shell",
+      "inline": [
+          
+          "ifconfig",
+          "sudo ros install -d /dev/sda -f -c /tmp/cloud-config.yml -i rancher/os:{{ user `ros_version` }} --no-reboot",
+          "echo need to configure DNS to rancher and nexus",
+          "docker run -d -p 8081:8081 --name nexus sonatype/nexus3"
+      ]
+   }
+  ]
+}

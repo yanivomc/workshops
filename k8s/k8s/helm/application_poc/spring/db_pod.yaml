@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-db
+  annotations:
+    "consul.hashicorp.com/connect-inject": "true"
+spec:
+  containers:
+    - name: mysql-db
+      image: yanivomc/spring-mysql:latest
+      env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        - name: MYSQL_DATABASE
+          value: "music"
+      ports:
+        - containerPort: 3306
+          name: http

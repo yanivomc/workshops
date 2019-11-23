@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: krb5-demo
+  labels:
+    appl: krb5-demo
+  annotations: {
+    "consul.hashicorp.com/connect-inject": "true"  } ## Inject Consul sidecar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appl: krb5-demo
+  template:
+    metadata:
+      labels:
+        appl: krb5-demo
+    spec:
+      serviceAccountName: vault-serviceaccount
+      volumes:
+      - name: vault-token
+        emptyDir:
+          medium: Memory
+      - name: krb5-token
+        emptyDir:
+          medium: Memory
+      initContainers: ### INIT Container to get initial Vault access token
+      - name: vault-kubernetes-authenticator
+        image: postfinance/vault-kubernetes-authenticator
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: vault-token
+          mountPath: /home/vault
+        env:
+        - name: VAULT_ADDR
+          value: ${VAULT_ADDR}
+        - name: VAULT_ROLE
+          value: vault-demo-role
+        - name: VAULT_TOKEN_PATH
+          value: /home/vault/.vault-token
+      containers:
+      - name: krb5-client-demo
+        image: yanivomc/krb5-envconsul:1.1.2
+        # REKINIT need to be fixed to apply password automaticly using echo
+        args: ["./rekinit.sh"]
+        volumeMounts:
+        - name: vault-token
+          mountPath: /home/vault
+        - name: krb5-token
+          mountPath: /krb5
+          mountPath: /dev/shm
+        env:
+        - name: VAULT_TOKEN_PATH
+          value: /home/vault/.vault-token
+        - name: VAULT_ADDR
+          value: ${VAULT_ADDR}
+        - name: CONSULPREFIX
+          value: "${CONSULPREFIX}" 
+        - name: PERIOD_SECONDS
+          value: "${PERIOD_SECONDS}" 

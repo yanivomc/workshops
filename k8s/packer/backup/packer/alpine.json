@@ -1,0 +1,64 @@
+{
+  "builders": [
+    {
+      "type": "vsphere-iso",
+
+      "vcenter_server": "photon-machine",
+      "username": "rancher@vsphere.local",
+      "password": "FreakingAws0me!",
+      "insecure_connection": true,
+
+      "vm_name": "alpine-{{timestamp}}",
+      "host": "10.0.0.27",
+
+      "CPUs":             1,
+      "RAM":              2048,
+      "RAM_reserve_all": true,
+      "disk_controller_type":  "pvscsi",
+      "disk_size":        40960,
+      "disk_thin_provisioned": true,
+      "network_card": "vmxnet3",
+      "network": "VM Network",
+
+      "guest_os_type": "other3xLinux64Guest",
+
+      "iso_paths": [
+        "[datastore1] files/alpine-standard-3.10.0-x86_64.iso"
+      ],
+      "floppy_files": [
+        "./configs/*"
+      ],
+
+      "boot_wait": "15s",
+      "boot_command": [
+        "root<enter><wait>",
+        "mount -t vfat -o shortname=lower /dev/fd0 /media/floppy<enter><wait>",
+        "setup-alpine -f /media/floppy/answerfile<enter>",
+        "<wait5>",
+        "jetbrains<enter>",
+        "jetbrains<enter>",
+        "<wait5>",
+        "y<enter>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10>",
+        "reboot<enter>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "root<enter>",
+        "jetbrains<enter><wait>",
+        "mount -t vfat -o shortname=lower /dev/fd0 /media/floppy<enter><wait>",
+        "chmod +x /media/floppy/setup.sh<enter>",
+        "/media/floppy/setup.sh<enter>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10><wait10>"
+      ],
+
+      "ssh_username": "root",
+      "ssh_password": "jetbrains"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["ls /"]
+    }
+  ]
+}

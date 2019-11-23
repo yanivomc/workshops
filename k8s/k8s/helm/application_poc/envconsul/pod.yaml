@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envconsul
+  annotations:
+    "consul.hashicorp.com/connect-inject": "true"
+    "consul.hashicorp.com/connect-service-upstreams": "conule-consul-server:8500"
+spec:
+  containers:
+    - name: envconsul
+      image: hashicorp/envconsul
+      #command: ["ash"]
+       

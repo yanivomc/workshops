@@ -1,0 +1,18 @@
+version: '3'
+services:
+  krb5-client:
+    image: yanivomc/krb5-client
+    restart: unless-stopped
+    volumes: 
+      - ./data/krb5:/krb5
+      - ./data/shm:/dev/shm
+      - ./data/etc:/etc/krb5.conf.d
+      - ./krb5.conf:/etc/krb5.conf
+      - ./rekinit.sh:/rekinit.sh
+    networks:
+      - krb5
+    dns:
+      - 10.0.0.180
+      
+networks:
+  krb5:

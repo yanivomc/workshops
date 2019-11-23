@@ -1,0 +1,36 @@
+## THIS YAML IS FOR TESTING THE INIT POD THAT RUNS AS PART OF THE MAIN APPLICATION
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-init-test
+  labels:
+    appl: vault-init-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appl: vault-init-test
+  template:
+    metadata:
+      labels:
+        appl: vault-init-test
+    spec:
+      serviceAccountName: vault-serviceaccount
+      volumes:
+      - name: vault-token
+        emptyDir:
+          medium: Memory
+      containers:
+      - name: kuard
+        image: postfinance/vault-kubernetes-authenticator
+        volumeMounts:
+        - name: vault-token
+          mountPath: /home/vault
+        env:
+        - name: VAULT_ADDR
+          value: ${VAULT_ADDR}
+        - name: VAULT_ROLE
+          value: vault-demo-role
+        - name: VAULT_TOKEN_PATH
+          value: /home/vault/.vault-token

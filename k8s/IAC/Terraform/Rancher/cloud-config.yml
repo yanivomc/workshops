@@ -1,0 +1,4 @@
+#cloud-config
+runcmd:
+- echo "adding manuals host records"
+- sudo echo "10.0.0.7 rancher-qa.devopshift.com" >> /etc/hosts

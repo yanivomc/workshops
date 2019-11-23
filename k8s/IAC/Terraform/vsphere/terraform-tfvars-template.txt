@@ -1,0 +1,9 @@
+// Vcenter variables
+vsphere_user = ""
+vsphere_password = ""
+vsphere_server = ""
+
+// Rancher variables
+rancher_server = "https://rancher-qa.devopshift.com:9443"
+rancher_agent_token = ""
+
