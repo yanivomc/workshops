@@ -23,8 +23,7 @@ rm /var/cache/apk/*
 WORKDIR /source
 # Prep Kops key source from http://bit.ly/rsa-public
 RUN mkdir ~/.ssh/ && \
-wget https://jb-workshop.s3-eu-west-1.amazonaws.com/terraform-provider-aws_v2.39.0_x4 -O 
-.terraform.d/plugin-cache/linux_amd64/terraform-provider-aws_v2.39.0_x4
+wget https://jb-workshop.s3-eu-west-1.amazonaws.com/terraform-provider-aws_v2.39.0_x4 -O .terraform.d/plugin-cache/linux_amd64/terraform-provider-aws_v2.39.0_x4
 
 ADD . ./
 COPY self-service-k8s-destory.sh self-service-k8s-up.sh /bin/
