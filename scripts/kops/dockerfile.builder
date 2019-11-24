@@ -29,7 +29,8 @@ RUN wget https://jb-workshop.s3-eu-west-1.amazonaws.com/terraform-provider-aws_v
 COPY self-service-k8s-destory.sh self-service-k8s-up.sh /bin/
 
 RUN chmod +x /bin/*.sh && \
-cp ./*id* ~/.ssh/
+cp ./*id* ~/.ssh/ \
+chmod +x .terraform.d/plugin-cache/linux_amd64/terraform-provider-aws_v2.39.0_x4
 ENV TF_PLUGIN_CACHE_DIR=/source/.terraform.d/plugin-cache
 
 ENTRYPOINT ["./entrypoint.sh"]
